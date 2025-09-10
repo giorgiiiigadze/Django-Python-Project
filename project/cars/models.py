@@ -3,11 +3,11 @@ from django.db import models
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth.models import User
+from users.models import CustomUser
 # Create your models here.
 
 class Car(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_cars')
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='posted_cars')
     brand = models.CharField(max_length=50, unique=False)
     model = models.CharField(max_length=50)
     year = models.IntegerField(default=2025)
@@ -33,7 +33,7 @@ class Car(models.Model):
         return f"{self.brand} {self.model} {self.year}"
 
 class RentCar(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
     days = models.IntegerField(default=1)
     
