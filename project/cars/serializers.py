@@ -3,7 +3,7 @@ from .models import *
 # from django.contrib.auth.models import User
 
 
-class CarSerialazer(serializers.ModelSerializer):
+class CarSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Car

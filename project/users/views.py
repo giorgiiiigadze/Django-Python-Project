@@ -52,16 +52,4 @@ class LogoutAPIView(APIView):
 
 
 class CustomTokenRefreshView(TokenRefreshView):
-    """
-    Uses SimpleJWT's built-in TokenRefreshView
-    Example request:
-    POST /api/users/token/refresh/
-    {
-        "refresh": "<refresh_token>"
-    }
-    Response:
-    {
-        "access": "<new_access_token>"
-    }
-    """
     permission_classes = [permissions.AllowAny]

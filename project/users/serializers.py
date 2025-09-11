@@ -18,20 +18,38 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'username': {'required': True},
             'email': {'required': True},
-            'phone_number': {'required': True},
-            'first_name': {'required': True},
-            'last_name': {'required': True},
+            # 'phone_number': {'required': True},
+            # 'first_name': {'required': True},
+            # 'last_name': {'required': True},
         }
 
     def validate_email(self, value):
         if CustomUser.objects.filter(email=value).exists():
             raise serializers.ValidationError("Email is already registered.")
+        if '@' not in value:
+            raise serializers.ValidationError("Please enter valid email.")
         return value
+    
+    def validate_mobile_number(self, value):
+        if value and not value.isdigit():
+            raise serializers.ValidationError("Phone number must contain only digits.")
+        if value and len(value) < 10:
+            raise serializers.ValidationError("Phone number must be at least 10 digits long.")
+        return value
+    
 
     def validate(self, attrs):
         if attrs['password'] != attrs['confirm_password']:
             raise serializers.ValidationError({"password": "Passwords must match."})
+        
+        if len(attrs['password']) < 8:
+            raise serializers.ValidationError({"password": "Passwords must be more than 8 Characters"})
+        
+        if CustomUser.objects.filter(attrs['username']).exists():
+            raise serializers.ValidationError("User with same username is already registered")
+        
         return attrs
+    
 
     def create(self, validated_data):
         validated_data.pop('confirm_password')
@@ -52,11 +70,9 @@ class LoginSerializer(serializers.Serializer):
 
         refresh = RefreshToken.for_user(user)
         return {
-            # "user": user,   es jer ar vici minda tu ara, savaraudod ar minda ))))
             "access": str(refresh.access_token),
             "refresh": str(refresh),
         }
-    
 
 
 class LogoutSerializer(serializers.Serializer):
