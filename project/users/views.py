@@ -1,55 +1,63 @@
+from django.shortcuts import render
+from django.conf import settings
+from .serializers import (
+    LogoutSerializer,
+    RegisterSerializer,
+    LoginSerializer,
+)
+from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
+from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth import get_user_model
+from .models import *
 
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenRefreshView
-
-from .serializers import RegisterSerializer, LoginSerializer, LogoutSerializer
-
-
-class RegisterAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
-
-    def get(self, request):
-        return Response(
-            {"message": "Send a POST request to register a new user"},
-            status=status.HTTP_200_OK
-        )
+class RegisterView(APIView):
+    serializer_class = RegisterSerializer
 
     def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            # print
+            serializer.save()
+            return Response({"message": "User registered successfully."}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginView(APIView):
+    serializer_class = LoginSerializer  
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            return Response({
+                "access": serializer.validated_data['access'],
+                "refresh": serializer.validated_data['refresh']
+            }, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogoutView(APIView):
+    serializer_class = LogoutSerializer
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(
-                {"message": "User registered successfully"},
-                status=status.HTTP_201_CREATED
-            )
+            return Response({"detail": "Successfully logged out."})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class LoginAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
-
-    def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.validated_data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class LogoutAPIView(APIView):
+class UsersCarsAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request):
-        serializer = LogoutSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {"message": "Successfully logged out"},
-                status=status.HTTP_200_OK
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request):
+        cars = CustomUser.objects.filter(owner=request.user)
 
-
-class CustomTokenRefreshView(TokenRefreshView):
-    permission_classes = [permissions.AllowAny]
+        serializer = RegisterSerializer(cars, many=True, context={"request": request})
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -10,8 +10,8 @@ class Car(models.Model):
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='posted_cars')
     brand = models.CharField(max_length=50, unique=False)
     model = models.CharField(max_length=50)
-    year = models.IntegerField(default=2025)
-    daily_price = models.DecimalField(max_digits=10, decimal_places=2, default=1)
+    year = models.IntegerField(default=1950)
+    daily_price = models.DecimalField(max_digits=10, decimal_places=2)
     capacity = models.IntegerField()
     transmission = models.CharField(max_length=20, choices=[
         ('automatic', 'Automatic'),
@@ -21,11 +21,13 @@ class Car(models.Model):
     city = models.CharField(max_length=50, default='kutaisi')
     fuel_tank = models.IntegerField(default=1)
     
-    photo1 = models.ImageField(upload_to='cars/', default='cars/default1.jpg')
-    photo2 = models.ImageField(upload_to='cars/', default='cars/default2.jpg')
-    photo3 = models.ImageField(upload_to='cars/', default='cars/default3.jpg')
-    
+    photo1 = models.ImageField(upload_to='cars/', default='cars/default1.jpg', blank=False, null=False)
+    photo2 = models.ImageField(upload_to='cars/', default='cars/default2.jpg', blank=False, null=False)
+    photo3 = models.ImageField(upload_to='cars/', default='cars/default3.jpg', blank=False, null=False)
+
     license_plate = models.CharField(max_length=20, unique=True)
+
+    rent_count = models.IntegerField(default=0)
 
     is_available = models.BooleanField(default=True)
 
