@@ -8,8 +8,10 @@ urlpatterns = [
     # #For Api
     path("api/cars/", CarsListAPIView.as_view()),
     path("api/cars/<int:pk>/", CarDetailAPIView.as_view()),
-    path("api/rent_car/", RentCarAPIView.as_view()),
+    path("api/rent_car/<int:pk>", RentCarAPIView.as_view()),
     path("api/post_car/", CarCreateAPIView.as_view()),
+    path("api/liked_cars/", MyLikedCarsAPIView.as_view()),
+
     # path("api/my_cars/", UsersCarsAPIView.as_view())
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

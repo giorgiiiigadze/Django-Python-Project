@@ -4,7 +4,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from tokenize import TokenError
-
+from cars.serializers import *
+from cars.models import RentCar
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -83,3 +84,19 @@ class LogoutSerializer(serializers.Serializer):
             token.blacklist()
         except TokenError:
             self.fail('bad_token')
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    rented_cars = serializers.SerializerMethodField()
+    liked_cars = CarSerializer(many=True, read_only=True)   # ✅ no source
+    posted_cars = CarSerializer(many=True, read_only=True)  # ✅ no source
+
+    class Meta:
+        model = CustomUser
+        fields = [
+            "id", "username", "email", "first_name", "last_name",
+            "phone_number", "liked_cars", "posted_cars", "rented_cars"
+        ]
+
+    def get_rented_cars(self, obj):
+        rented = RentCar.objects.filter(user=obj)
+        return RentCarSerialazer(rented, many=True, context=self.context).data

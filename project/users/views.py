@@ -1,21 +1,13 @@
 from django.shortcuts import render
 from django.conf import settings
-from .serializers import (
-    LogoutSerializer,
-    RegisterSerializer,
-    LoginSerializer,
-)
+from .serializers import *
 from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
-from django.core.mail import send_mail
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes, force_str
-from django.contrib.auth import get_user_model
 from .models import *
+from cars.models import *
 
 class RegisterView(APIView):
     serializer_class = RegisterSerializer
@@ -59,5 +51,13 @@ class UsersCarsAPIView(APIView):
     def get(self, request):
         cars = CustomUser.objects.filter(owner=request.user)
 
-        serializer = RegisterSerializer(cars, many=True, context={"request": request})
+        serializer = RegisterSerializer(cars, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserProfileAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = UserProfileSerializer(user, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)

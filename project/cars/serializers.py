@@ -7,14 +7,8 @@ class CarSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Car
-        fields = [
-            'id',
-            'owner', 'brand', 'model', 'year', 'capacity', 
-            'transmission', 'daily_price', 'city', 
-            'photo1', 'photo2', 'photo3', 'license_plate' ,'is_available'
-        ]
-        read_only_fields = ['id','owner']
-
+        fields = '__all__'
+        read_only_fields = ["owner"]
     def validate_brand(self, value):
         allowed_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -"
         for char in value:
@@ -42,3 +36,5 @@ class RentCarSerialazer(serializers.ModelSerializer):
         model = RentCar
         fields = ["id", "user", "car", "days", "total_price"]
         read_only_fields = ["user", "total_price"]
+
+
