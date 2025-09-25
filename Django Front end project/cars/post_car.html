@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Car</title>
+    <style>
+
+        .post_car_container {
+            max-width: 600px;
+            margin: 40px auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        form button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #222;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #555;
+        }
+
+        .message {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="navbar"></div>
+
+    <div class="post_car_container">
+        <h1>Add New Car</h1>
+        <form id="carForm" enctype="multipart/form-data">
+            <label>Brand</label>
+            <input type="text" name="brand" required>
+
+            <label>Model</label>
+            <input type="text" name="model" required>
+
+            <label>Year</label>
+            <input type="number" name="year" min="1950" max="2100" required>
+
+            <label>Daily Price ($)</label>
+            <input type="number" name="daily_price" step="0.01" required>
+
+            <label>Capacity</label>
+            <input type="number" name="capacity" min="1" required>
+
+            <label>Transmission</label>
+            <select name="transmission" required>
+                <option value="automatic">Automatic</option>
+                <option value="manual">Manual</option>
+                <option value="tiptronic">Tiptronic</option>
+            </select>
+
+            <label>City</label>
+            <input type="text" name="city" required>
+
+            <label>Fuel Tank (Liters)</label>
+            <input type="number" name="fuel_tank" min="1" required>
+
+            <label>License Plate</label>
+            <input type="text" name="license_plate" required>
+
+            <label>Photo 1</label>
+            <input type="file" name="photo1" accept="image/*" required>
+
+            <label>Photo 2</label>
+            <input type="file" name="photo2" accept="image/*" required>
+
+            <label>Photo 3</label>
+            <input type="file" name="photo3" accept="image/*" required>
+            <label>Is Car Available</label>
+                <input type="checkbox" name="is_available" checked>
+
+            <button type="submit">Add Car</button>
+        </form>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script src="/cars/js/post_car.js"></script>
+    <script src="/cars/navbar.js"></script>
+
+</body>
+</html>

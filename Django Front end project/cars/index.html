@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/cars/css/cars.css">
+    <title>Cars | Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- <marquee behavior="scroll" direction="left" scrollamount="6" style="color:#fff; font-size:16px; font-weight:300; background:#000; border-bottom: 1px solid #a8a8a8; height: 40px; display: flex; align-items: center;">
+    🚗 Welcome to our Car Renting & Posting Platform — Find your dream car to rent, post your own vehicle for others, compare prices, and enjoy a smooth experience with just a few clicks! 🛻✨
+    </marquee> -->
+    <div id="navbar"></div>
+    <div id="messages"></div>
+    <section>
+        <div class="text">
+            <p class="it_p">Project For IT Step Academy</p>
+            <h1 id="animated-heading">Your journey on wheels starts here</h1>
+            <p>Find, book, and rent your perfect car in just a few clicks — no hassle, no stress.</p>
+            <div class="heading_links">
+                <a href="#" style="color: #222; background-color: #fff;" class="try-now-button">Begin Now</a>
+                <a href="#" class="try-now-button" id="text_filtration_button">Filtration</a>               
+            </div>
+        </div>
+        <!-- <h1>Your liked cars</h1> -->
+        <div class="my_liked_cars_container" id="my_liked_cars_container">
+            <p id="liked_text">Your liked cars</p>
+            <div class="my_liked_cars" id="my_liked_cars">
+                <!-- <p style="text-align:center; color:#bbb;">Loading cars...</p> -->
+                <!-- <p style="text-align:center; color:#bbb;">No liked cars.</p> -->
+
+            </div>            
+        </div>
+        <div class="filtration">
+            <form id="filterForm">
+                <label>
+                    Brand:
+                    <input type="text" id="brandFilter" placeholder="e.g. Toyota">
+                </label>
+
+                <label>
+                    Model:
+                    <input type="text" id="modelFilter" placeholder="e.g. Corolla">
+                </label>
+
+                <label>
+                    Availability:
+                    <select id="availabilityFilter">
+                        <option value="">Any</option>
+                        <option value="true">Available</option>
+                        <option value="false">Not Available</option>
+                    </select>
+                </label>
+
+                <button id="filterBtn" type="submit">Apply Filters</button>
+                <button type="button" id="resetFilter">Reset</button>
+            </form>
+        </div>
+        <div class="car_list" style="display: flex; flex-direction: column;">
+            <div class="cars" id="cars">
+                <div class="cars-container" id="cars-list">
+                    <p style="text-align:center; color:#bbb;">Loading cars...</p>
+                </div>        
+            </div>          
+        </div>
+      
+    </section>
+    <div id="footer"></div>
+    <button id="backToTop" title="Go to top">↑</button>
+
+    <script src="/cars/js/cars.js"></script>
+    <script src="/cars/navbar.js"></script>
+</body>
+</html>

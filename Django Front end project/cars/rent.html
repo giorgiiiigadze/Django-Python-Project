@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent a Car</title>
+    <link rel="stylesheet" href="/cars/css/rent.css">
+</head>
+<body>
+    <div id="navbar"></div>
+    <div id="message"></div>
+
+    <div class="rent_container">
+        <form id="rentForm">
+            <h1>Rent a Car</h1>
+
+            <label for="car">Car ID:</label>
+            <input type="number" id="car" name="car" placeholder="Enter Car ID" required>
+
+            <label for="days">Number of Days:</label>
+            <input type="number" id="days" name="days" min="1" value="1" required>
+
+            <button type="submit">Rent Now</button>
+        </form>
+
+    </div>
+    <script src="/cars/js/rent.js"></script>
+    <script src="/cars/navbar.js"></script>
+
+</body>
+</html>
